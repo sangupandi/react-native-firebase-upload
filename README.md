@@ -25,38 +25,26 @@ exports.upload = functions.https.onRequest(upload.handler);
 **React Native**
 
 ```javascript
-upload = async () => {
+import upload from 'react-native-firebase-upload';
+
+const pick = async () => {
   try {
     // we are using Expo here
-    const file = await ImagePicker.launchImageLibraryAsync();
+    const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync();
 
-    if (!file.cancelled) {
-      const body = new FormData();
-
-      let name = file.uri.split('/');
+    if (!cancelled) {
+      let name = uri.split('/');
       name = name[name.length - 1];
 
-      // this uploads to the root dir in the bucket
-      body.append('/', { uri: file.uri, name });
-
-      // this uploads to the sub dir in the bucket
-      // body.append('img/', { uri: file.uri, name });
-
-      await fetch('FUNCTION_ENDPOINT', {
-        method: 'post',
-        body,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'multipart/form-data'
-        }
+      const res = await upload({
+        uri,
+        name,
+        endpoint: 'FUNCTION_ENDPOINT',
+        path: 'img/', // will store in `img` folder, defaults to root directory `/`
+        storage // your firebase.storage() ref.
       });
 
-      const url = await storage()
-        .ref() // .ref('img') if using a sub dir
-        .child(name)
-        .getDownloadURL();
-
-      console.log(url);
+      console.log(res.downloadURLs[0]); // returns upload metadata
     }
   } catch (err) {
     console.log(err.message);
