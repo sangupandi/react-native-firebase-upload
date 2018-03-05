@@ -8,6 +8,14 @@ This package allows you to upload assets from React Native to Firebase Cloud Sto
 
 `yarn add react-native-firebase-upload`
 
+`yarn add body-parser busboy content-type cors express raw-body`
+
+in your functions dir.
+
+`yarn add react-native-firebase-upload`
+
+in your React Native project.
+
 # Usage
 
 **Firebase Cloud Function**
