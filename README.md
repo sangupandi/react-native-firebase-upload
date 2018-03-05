@@ -44,7 +44,11 @@ const pick = async () => {
         storage // your firebase.storage() ref.
       });
 
-      console.log(res.downloadURLs[0]); // returns upload metadata
+      // returns upload metadata
+      console.log({
+        downloadURL: res.downloadURLs[0],
+        storageLocation: `gs://${res.bucket}/${res.fullPath}`
+      });
     }
   } catch (err) {
     console.log(err.message);
