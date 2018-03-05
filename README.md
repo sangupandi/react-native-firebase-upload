@@ -2,7 +2,7 @@
 
 This package allows you to upload assets from React Native to Firebase Cloud Storage through a Firebase Cloud Function, it is adapted from [this post](https://medium.com/@wcandillon/uploading-images-to-firebase-with-expo-a913c9f8e98d). Right now it is just a direct implementation, more enhancements might be coming.
 
-**This package will be depreciated once blob support is fully supported in React Native (coming very soon, PRs have already been merged).**
+**This package will be depreciated once blob is fully supported in React Native (coming very soon, PRs have already been merged).**
 
 # Installation
 
