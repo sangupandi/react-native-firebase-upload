@@ -47,6 +47,8 @@ app.use((req, res, next) => {
 
     req.files = { file: [] };
 
+    busboy.on('field', (fieldname, value) => (req.body[fieldname] = value));
+
     busboy.on('file', (fieldname, file, name, encoding, mimetype) => {
       file.on('data', data => (fileBuffer = Buffer.concat([fileBuffer, data])));
 
@@ -103,4 +105,7 @@ app.post('/', (req, res, next) => {
   blob.end(file.buffer);
 });
 
-exports.handler = app;
+exports.handler = (req, res) => {
+  if (!req.url) req.url = '/';
+  return app(req, res);
+};
