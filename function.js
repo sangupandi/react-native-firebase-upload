@@ -42,8 +42,6 @@ app.use((req, res, next) => {
 
     req.files = { file: [] };
 
-    busboy.on('field', (field, value) => (req.body[field] = value));
-
     busboy.on('file', (field, file, name, encoding, type) => {
       file.on('data', data => (buffer = Buffer.concat([buffer, data])));
 
