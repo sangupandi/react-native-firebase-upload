@@ -6,12 +6,9 @@ const helper = ({ uri, name, endpoint, path = '/', storage }) =>
       body.append(path, { uri, name });
 
       await fetch(endpoint, {
-        method: 'post',
+        method: 'POST',
         body,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'multipart/form-data'
-        }
+        headers: { 'Content-Type': 'multipart/form-data' }
       });
 
       const metadata = await storage.ref(`${path}${name}`).getMetadata();

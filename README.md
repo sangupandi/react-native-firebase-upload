@@ -1,20 +1,20 @@
 # react-native-firebase-upload
 
-This package allows you to upload assets from React Native to Firebase Cloud Storage through a Firebase Cloud Function, it is adapted from [this post](https://medium.com/@wcandillon/uploading-images-to-firebase-with-expo-a913c9f8e98d). Right now it is just a direct implementation, more enhancements might be coming.
+This package allows you to upload assets from React Native to Firebase Cloud Storage through a Firebase Cloud Function, it is adapted from [this post](https://medium.com/@wcandillon/uploading-images-to-firebase-with-expo-a913c9f8e98d).
 
 **This package will be depreciated once blob is fully supported in React Native (coming very soon, PRs have already been merged).**
 
 # Installation
 
-`yarn add react-native-firebase-upload`
-
-`yarn add body-parser busboy content-type cors express raw-body`
-
 in your functions dir.
 
 `yarn add react-native-firebase-upload`
 
+`yarn add busboy content-type cors express raw-body`
+
 in your React Native project.
+
+`yarn add react-native-firebase-upload`
 
 # Usage
 
@@ -44,18 +44,18 @@ const pick = async () => {
       let name = uri.split('/');
       name = name[name.length - 1];
 
-      const res = await upload({
+      const metadata = await upload({
         uri,
         name,
         endpoint: 'FUNCTION_ENDPOINT',
-        path: 'img/', // will store in `img` folder, defaults to root directory `/`
-        storage // your firebase.storage() ref.
+        storage, // your firebase.storage() ref.
+
+        path: 'img/' // will store in `img` folder, defaults to root directory `/`
       });
 
-      // returns upload metadata
       console.log({
-        downloadURL: res.downloadURLs[0],
-        storageLocation: `gs://${res.bucket}/${res.fullPath}`
+        downloadURL: metadata.downloadURLs[0],
+        storageLocation: `gs://${metadata.bucket}/${metadata.fullPath}`
       });
     }
   } catch (err) {
