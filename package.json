@@ -1,8 +1,8 @@
 {
   "name": "react-native-firebase-upload",
   "description": "Upload assets directly to Firebase from React Native.",
-  "version": "0.0.7",
-  "main": "index.js",
+  "version": "0.0.8",
+  "main": "function.js",
   "react-native": "helper.js",
   "repository": {
     "type": "git",
