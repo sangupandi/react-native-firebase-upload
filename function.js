@@ -1,13 +1,9 @@
 const admin = require('firebase-admin');
 const Busboy = require('busboy');
-const contentType = require('content-type');
-const cors = require('cors');
 const express = require('express');
 const rawBody = require('raw-body');
 
 const app = express();
-
-app.use(cors({ origin: true }));
 
 app.use((req, res, next) => {
   if (
@@ -18,7 +14,6 @@ app.use((req, res, next) => {
     rawBody(
       req,
       {
-        encoding: contentType.parse(req).parameters.charset,
         length: req.headers['content-length'],
         limit: '10mb'
       },
