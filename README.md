@@ -10,7 +10,7 @@ in your functions dir.
 
 `yarn add react-native-firebase-upload`
 
-`yarn add busboy express raw-body`
+`yarn add busboy express`
 
 in your React Native project.
 
