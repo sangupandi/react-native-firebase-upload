@@ -20,13 +20,16 @@ const upload = require('react-native-firebase-upload');
 admin.initializeApp(functions.config().firebase);
 
 exports.upload = functions.https.onRequest(upload.handler);
+
+// with authentication
+exports.upload = functions.https.onRequest(upload.authHandler);
 ```
 
 **React Native**
 
 ```javascript
 import upload from 'react-native-firebase-upload';
-import { initializeApp, storage } from 'firebase';
+import { auth, initializeApp, storage } from 'firebase';
 
 initializeApp(/* .. */);
 
@@ -39,13 +42,16 @@ const pick = async () => {
       let name = uri.split('/');
       name = name[name.length - 1];
 
+      const token = await auth().currentUser.getIdToken(true); // true = forceRefresh
+
       const metadata = await upload({
         uri,
         name,
         endpoint: 'FUNCTION_ENDPOINT',
         storage: storage(),
 
-        path: 'img/' // will store in `img` folder, defaults to root directory `/`
+        path: 'img/', // will store in `img` folder, defaults to root directory `/`
+        token // pass the token if your endpoint requires authentication
       });
 
       console.log({

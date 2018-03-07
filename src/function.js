@@ -55,14 +55,29 @@ app.post('/', (req, res) => {
   upload.end(buffer);
 });
 
-exports.handler = (req, res) => {
-  if (
-    req.method !== 'POST' ||
-    !req.headers['content-type'].startsWith('multipart/form-data')
-  )
-    return res.status(500).end();
+const handler = (req, res) => {
+  const type = req.get('content-type');
+
+  if (req.method !== 'POST' || !type || !type.startsWith('multipart/form-data'))
+    return res.status(400).json({ err: 'Bad request' });
 
   if (!req.url) req.url = '/';
 
   return app(req, res);
 };
+
+exports.handler = handler;
+
+const authHandler = (req, res) => {
+  const token = req.get('authorization');
+
+  if (!token) return res.status(401).json({ err: 'Unauthorized' });
+
+  return admin
+    .auth()
+    .verifyIdToken(token.split('Bearer ')[1])
+    .then(() => handler(req, res))
+    .catch(err => res.status(400).json(err));
+};
+
+exports.authHandler = authHandler;
