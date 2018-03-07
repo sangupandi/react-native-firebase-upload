@@ -59,7 +59,7 @@ const handler = (req, res) => {
   const type = req.get('content-type');
 
   if (req.method !== 'POST' || !type || !type.startsWith('multipart/form-data'))
-    return res.status(400).json('Bad request');
+    return res.status(400).json('Bad Request');
 
   if (!req.url) req.url = '/';
 
@@ -77,7 +77,7 @@ const authHandler = (req, res) => {
     .auth()
     .verifyIdToken(token.split('Bearer ')[1])
     .then(() => handler(req, res))
-    .catch(err => res.status(400).json(err.message));
+    .catch(err => res.status(401).json(err.message));
 };
 
 exports.authHandler = authHandler;
