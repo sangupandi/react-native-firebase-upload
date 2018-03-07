@@ -10,6 +10,7 @@
   },
   "optionalDependencies": {
     "busboy": "^0.2.14",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "raw-body": "2.3.2"
   }
 }

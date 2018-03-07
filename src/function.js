@@ -1,8 +1,25 @@
 const admin = require('firebase-admin');
 const Busboy = require('busboy');
 const express = require('express');
+const rawBody = require('raw-body');
 
 const app = express();
+
+// `req.rawBody` is already provided by the cloud engine
+// to test locally we need to add this middleware to emulate that behavior
+app.use(
+  (req, res, next) =>
+    !req.rawBody &&
+    rawBody(
+      req,
+      { length: req.headers['content-length'], limit: '10mb' },
+      (err, raw) => {
+        if (err) return next(err);
+        req.rawBody = raw;
+        return next();
+      }
+    )
+);
 
 app.use((req, res, next) => {
   const busboy = new Busboy({ headers: req.headers });
