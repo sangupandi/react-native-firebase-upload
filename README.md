@@ -29,9 +29,16 @@ exports.upload = functions.https.onRequest(upload.authHandler);
 
 ```javascript
 import upload from 'react-native-firebase-upload';
-import { auth, initializeApp, storage } from 'firebase';
+import { auth as fbauth, initializeApp, storage as fbstorage } from 'firebase';
 
 initializeApp(/* .. */);
+
+const auth = fbauth();
+const storage = fbstorage();
+
+auth.signInWithEmailAndPassword(/* .. */);
+// or auth.signInAnonymously();
+// or any other sign in method
 
 const pick = async () => {
   try {
@@ -42,13 +49,13 @@ const pick = async () => {
       let name = uri.split('/');
       name = name[name.length - 1];
 
-      const token = await auth().currentUser.getIdToken(true); // true = forceRefresh
+      const token = await auth.currentUser.getIdToken(true); // true = forceRefresh
 
       const metadata = await upload({
         uri,
-        name,
+        name, // file name
         endpoint: 'FUNCTION_ENDPOINT',
-        storage: storage(),
+        storage, // firebase.storage() ref.
 
         path: 'img/', // will store in `img` folder, defaults to root directory `/`
         token // pass the token if your endpoint requires authentication
