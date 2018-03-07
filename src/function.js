@@ -7,9 +7,8 @@ const app = express();
 
 // `req.rawBody` is already provided by the cloud engine
 // to test locally we need to add this middleware to emulate that behavior
-app.use(
-  (req, res, next) =>
-    !req.rawBody &&
+app.use((req, res, next) => {
+  if (!req.rawBody)
     rawBody(
       req,
       { length: req.headers['content-length'], limit: '10mb' },
@@ -18,8 +17,9 @@ app.use(
         req.rawBody = raw;
         return next();
       }
-    )
-);
+    );
+  else next();
+});
 
 app.use((req, res, next) => {
   const busboy = new Busboy({ headers: req.headers });
