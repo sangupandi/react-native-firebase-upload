@@ -15,7 +15,7 @@ const helper = ({ uri, name, endpoint, path = '/', storage, token }) =>
       });
 
       if (!upload.ok) {
-        const { err } = await upload.json();
+        const err = await upload.json();
 
         rej(new Error(err));
       }

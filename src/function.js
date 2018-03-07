@@ -48,7 +48,7 @@ app.post('/', (req, res) => {
 
   const upload = file.createWriteStream({ metadata: { contentType } });
 
-  upload.on('error', err => res.status(500).json(err));
+  upload.on('error', err => res.status(500).json(err.message));
 
   upload.on('finish', () => res.status(200).end());
 
@@ -59,7 +59,7 @@ const handler = (req, res) => {
   const type = req.get('content-type');
 
   if (req.method !== 'POST' || !type || !type.startsWith('multipart/form-data'))
-    return res.status(400).json({ err: 'Bad request' });
+    return res.status(400).json('Bad request');
 
   if (!req.url) req.url = '/';
 
@@ -71,13 +71,13 @@ exports.handler = handler;
 const authHandler = (req, res) => {
   const token = req.get('authorization');
 
-  if (!token) return res.status(401).json({ err: 'Unauthorized' });
+  if (!token) return res.status(401).json('Unauthorized');
 
   return admin
     .auth()
     .verifyIdToken(token.split('Bearer ')[1])
     .then(() => handler(req, res))
-    .catch(err => res.status(400).json(err));
+    .catch(err => res.status(400).json(err.message));
 };
 
 exports.authHandler = authHandler;

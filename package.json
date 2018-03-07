@@ -2,7 +2,7 @@
   "license": "UNLICENSED",
   "name": "react-native-firebase-upload",
   "description": "Upload assets directly from React Native to Firebase.",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "main": "src/function.js",
   "react-native": "src/helper.js",
   "repository": {
